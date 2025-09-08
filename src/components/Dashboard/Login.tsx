@@ -1,4 +1,3 @@
-// File: components/pages/Dashboard.tsx
 import React, { useState } from 'react';
 import { Plus, Shield, FileText, Bot, TrendingUp, Activity, Eye, AlertTriangle, Check, Clock,User,Copy,Settings, LogIn} from 'lucide-react';
 
@@ -127,7 +126,7 @@ const Login: React.FC = () => {
           <div className="w-10 h-10 bg-purple-700 rounded-lg flex items-center justify-center">
             <Shield className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-xl font-semibold">HealthChain</h1>
+          <h1 className="text-xl font-semibold">PulseVault</h1>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">

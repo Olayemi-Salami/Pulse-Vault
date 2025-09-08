@@ -1,4 +1,3 @@
-// src/components/pages/DataEntry.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
