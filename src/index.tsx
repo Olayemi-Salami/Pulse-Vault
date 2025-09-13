@@ -2,13 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { WagmiProvider } from 'wagmi';
-import { QueryClientProvider } from '@tanstack/react-query';
+import { sepolia, mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
 import App from './App';
 import './index.css';
 import Dashboard from './pages/Dashboard';
+import DataEntries from './pages/DataEntries';
 import WalletConnect from './components/Dashboard/WalletConnect';
+import Leaderboard from './pages/Leaderboard';
+import Login from './components/Dashboard/Login';
 import { config } from './wagmiConfig';
 import { queryClient } from './queryClient';
 
@@ -75,7 +79,10 @@ root.render(
               <Routes>
                 <Route path="/" element={<App />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/WalletConnect" element={<WalletConnect />} />
+                <Route path="/entries" element={<DataEntries />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/wallet-connect" element={<WalletConnect />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
               </Routes>
             </BrowserRouter>
           </RainbowKitProvider>

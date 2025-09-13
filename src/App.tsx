@@ -17,20 +17,11 @@ import {
 import { Button } from "./components/ui/button";
 import { Link, useNavigate } from 'react-router-dom';
 import MobileMenu from "./components/Navbar/MobileMenu";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
+import { CustomConnectButton } from "./components/CustomConnectButton";
 import Chatbot from "./components/Bot/Chatbot";
 
 const App: React.FC = () => {
-    const navigate = useNavigate();
-    const { isConnected } = useAccount();
     const [isChatbotOpen, setIsChatbotOpen] = useState(false);
-
-    useEffect(() => {
-        if (isConnected) {
-            navigate('/dashboard');
-        }
-    }, [isConnected, navigate]);
 
     return (
         <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 text-white relative overflow-hidden">
@@ -45,7 +36,7 @@ const App: React.FC = () => {
                     <a href="#features" className="hover:text-gray-200">Features</a>
                     <a href="#about" className="hover:text-gray-200">About</a>
                     <a href="#docs" className="hover:text-gray-200">Docs</a>
-                    <ConnectButton />
+                    <CustomConnectButton />
                 </div>
             </nav>
 
@@ -64,7 +55,6 @@ const App: React.FC = () => {
                         Your data, your control, powered by cutting-edge AI insights.
                     </p>
                     <div className="flex space-x-4 mt-8 mb-20">
-                        <ConnectButton />
                         <Button variant="outline" className="text-white border-white/50 hover:bg-white/10">
                             Learn More
                         </Button>

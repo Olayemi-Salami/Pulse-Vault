@@ -1,6 +1,7 @@
 // src/wagmiConfig.ts
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { mainnet, polygon, optimism, arbitrum, sepolia } from 'wagmi/chains';
+import { http } from 'wagmi';
 
 // Get project ID from environment variables
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '04726039ae0763114752c1726ee8064d';
@@ -16,7 +17,14 @@ export const config = getDefaultConfig({
     appName: 'AI Health Coach',
     projectId,
     chains,
-    ssr: true,
+    ssr: false,
+    transports: {
+        [mainnet.id]: http(),
+        [polygon.id]: http(),
+        [optimism.id]: http(),
+        [arbitrum.id]: http(),
+        [sepolia.id]: http(),
+    },
 });
 
 // Export the chains for use in other files
