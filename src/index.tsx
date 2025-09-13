@@ -69,6 +69,7 @@ root.render(
             appInfo={{
               appName: 'PulseVault',
             }}
+            enableAnalytics={false}
           >
             <BrowserRouter>
               <Routes>
