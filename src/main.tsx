@@ -7,6 +7,8 @@ import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { config } from './wagmiConfig';
 import App from './App';
 import './index.css';
+import CustomConnectButton from './components/Dashboard/CustomConnectButton';
+import LoginForm from './components/Dashboard/LoginForm';
 import Dashboard from './pages/Dashboard';
 import WalletConnect from './components/Dashboard/WalletConnect';
 
@@ -46,7 +48,7 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
             >
               Refresh Page
             </button>
@@ -68,7 +70,7 @@ root.render(
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider
             theme={darkTheme({
-              accentColor: '#10b981', // emerald-500
+              accentColor: '#10b981',
               accentColorForeground: 'white',
               borderRadius: 'medium',
               fontStack: 'rounded',
@@ -81,11 +83,7 @@ root.render(
             modalSize="wide"
           >
             <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<App />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/wallet-connect" element={<WalletConnect />} />
-              </Routes>
+              <App />
             </BrowserRouter>
           </RainbowKitProvider>
         </QueryClientProvider>

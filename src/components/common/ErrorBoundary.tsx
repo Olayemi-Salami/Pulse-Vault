@@ -1,4 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
+import { Component } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -19,27 +20,20 @@ class ErrorBoundary extends Component<Props, State> {
   };
 
   public static getDerivedStateFromError(error: Error): State {
-    return {
-      hasError: true,
-      error,
-      errorInfo: null
-    };
+    return { hasError: true, error, errorInfo: null };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    this.setState({
-      error,
-      errorInfo
-    });
+    this.setState({ error, errorInfo });
   }
 
   public render() {
     if (this.state.hasError) {
       return this.props.fallback || (
-        <div className="p-4 bg-red-50 text-red-800 rounded-lg">
-          <h2 className="font-bold text-lg mb-2">Something went wrong</h2>
-          <details className="whitespace-pre-wrap">
+        <div className="error-boundary">
+          <h2>Something went wrong</h2>
+          <details style={{ whiteSpace: 'pre-wrap' }}>
             {this.state.error && this.state.error.toString()}
             <br />
             {this.state.errorInfo?.componentStack}

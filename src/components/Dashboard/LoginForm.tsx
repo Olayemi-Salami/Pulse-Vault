@@ -1,7 +1,7 @@
 // File: src/components/DataEntry/DataEntry.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, User, Shield, Settings, Plus } from 'lucide-react';
+import { Check, User, Shield, Settings } from 'lucide-react';
 
 
 const LoginForm: React.FC = () => {

@@ -2,19 +2,27 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { WagmiProvider } from 'wagmi';
-import { sepolia, mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
 import App from './App';
 import './index.css';
 import Dashboard from './pages/Dashboard';
-import DataEntries from './pages/DataEntries';
+import DataEntry from './components/Dashboard/DataEntry';
 import WalletConnect from './components/Dashboard/WalletConnect';
 import Leaderboard from './pages/Leaderboard';
-import Login from './components/Dashboard/Login';
 import { config } from './wagmiConfig';
-import { queryClient } from './queryClient';
+import LoginForm from "@/components/Dashboard/LoginForm.tsx";
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 // Error Boundary Component
 class ErrorBoundary extends React.Component<{children: React.ReactNode}, { hasError: boolean }> {
@@ -27,18 +35,24 @@ class ErrorBoundary extends React.Component<{children: React.ReactNode}, { hasEr
     return { hasError: true };
   }
 
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
+  }
+
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-          <div className="p-8 bg-white rounded-lg shadow-lg text-center">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
             <h2 className="text-2xl font-bold text-red-600 mb-4">Something went wrong</h2>
-            <p className="text-gray-700 mb-4">We're working on fixing this issue. Please try again later.</p>
-            <button 
-              onClick={() => window.location.reload()} 
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            <p className="text-gray-700 mb-6">
+              We're sorry, but an unexpected error occurred. Please try refreshing the page.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors"
             >
-              Reload Page
+              Refresh Page
             </button>
           </div>
         </div>
@@ -49,45 +63,37 @@ class ErrorBoundary extends React.Component<{children: React.ReactNode}, { hasEr
   }
 }
 
-const rootElement = document.getElementById('root');
-
-if (!rootElement) {
-  throw new Error("Failed to find the root element");
-}
-
-const root = ReactDOM.createRoot(rootElement as HTMLElement);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <WagmiProvider config={config}>
-        <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider 
-            theme={darkTheme({
-              accentColor: '#7c3aed',
-              accentColorForeground: 'white',
-              borderRadius: 'medium',
-              fontStack: 'system',
-              overlayBlur: 'small',
-            })}
-            appInfo={{
-              appName: 'PulseVault',
-            }}
-            enableAnalytics={false}
-          >
-            <BrowserRouter>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider 
+          theme={darkTheme({
+            accentColor: '#7C3AED',
+            accentColorForeground: 'white',
+            borderRadius: 'medium',
+            fontStack: 'system',
+            overlayBlur: 'small',
+          })}
+          appInfo={{
+            appName: 'AI Health Coach',
+          }}
+        >
+          <BrowserRouter>
+            <ErrorBoundary>
               <Routes>
                 <Route path="/" element={<App />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/entries" element={<DataEntries />} />
-                <Route path="/login" element={<Login />} />
                 <Route path="/wallet-connect" element={<WalletConnect />} />
+                  <Route path="/login" element={<LoginForm />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
               </Routes>
-            </BrowserRouter>
-          </RainbowKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>
-    </ErrorBoundary>
+            </ErrorBoundary>
+          </BrowserRouter>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   </React.StrictMode>
 );
